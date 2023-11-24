@@ -47,4 +47,15 @@ class ProductPriceServiceImpl implements ProductPriceService {
         }
         productPriceRepository.deleteById(priceId);
     }
+
+    @Override
+    public List<ProductPrice> getAllProductPricesByProductId(Long productId) {
+        return productPriceRepository.findAllByProduct_ProductId(productId);
+    }
+
+    @Override
+    public ProductPrice getCurrentProductPrice(Long productId) {
+        return productPriceRepository.findTopByProduct_ProductIdOrderByPriceDateTimeDesc(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product price not found for productId: " + productId));
+    }
 }

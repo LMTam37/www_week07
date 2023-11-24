@@ -47,4 +47,9 @@ public class ProductImageServiceImpl implements ProductImageService {
         }
         productImageRepository.deleteById(imageId);
     }
+
+    @Override
+    public List<ProductImage> getAllProductImagesByProductId(Long productId) {
+        return productImageRepository.findAllByProduct_ProductId(productId);
+    }
 }

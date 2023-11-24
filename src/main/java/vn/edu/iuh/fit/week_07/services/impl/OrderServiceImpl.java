@@ -7,6 +7,7 @@ import vn.edu.iuh.fit.week_07.models.Order;
 import vn.edu.iuh.fit.week_07.repositories.OrderRepository;
 import vn.edu.iuh.fit.week_07.services.OrderService;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -46,5 +47,15 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException("Order not found with id: " + orderId);
         }
         orderRepository.deleteById(orderId);
+    }
+
+    @Override
+    public List<Order> getAllOrdersByEmployeeId(Long empId) {
+        return orderRepository.findAllByEmployee_EmpId(empId);
+    }
+
+    @Override
+    public List<Order> getOrdersByDateRange(Date startDate,Date endDate) {
+        return orderRepository.findAllByOrderDateBetween(startDate, endDate);
     }
 }

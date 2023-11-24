@@ -47,4 +47,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         }
         orderDetailRepository.deleteById(orderDetailId);
     }
+
+    @Override
+    public List<OrderDetail> getAllOrderDetailsByOrderId(Long orderId) {
+        return orderDetailRepository.findAllByOrder_OrderId(orderId);
+    }
 }

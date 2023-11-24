@@ -3,6 +3,7 @@ package vn.edu.iuh.fit.week_07.services.impl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.edu.iuh.fit.week_07.enums.ProductStatus;
 import vn.edu.iuh.fit.week_07.models.Product;
 import vn.edu.iuh.fit.week_07.repositories.ProductRepository;
 import vn.edu.iuh.fit.week_07.services.ProductService;
@@ -46,5 +47,10 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("Product not found with id: " + productId);
         }
         productRepository.deleteById(productId);
+    }
+
+    @Override
+    public List<Product> getAllActiveProducts() {
+        return productRepository.findAllByStatus(ProductStatus.ACTIVE);
     }
 }
