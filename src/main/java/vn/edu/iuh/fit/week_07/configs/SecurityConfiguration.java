@@ -3,6 +3,7 @@ package vn.edu.iuh.fit.week_07.configs;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -30,7 +31,7 @@ public class SecurityConfiguration {
                 .roles("USER")
                 .build();
         UserDetails admin = users
-                .username("ADMIN@gmail.com")
+                .username("admin@gmail.com")
                 .password("1")
                 .roles("ADMIN")
                 .build();
@@ -39,9 +40,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(registry -> registry
-                        .requestMatchers("/admin/**").authenticated()
-                        .requestMatchers("/user/**").authenticated()
+        httpSecurity.authorizeHttpRequests(
+                registry -> registry
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults())
                 .logout(Customizer.withDefaults());
